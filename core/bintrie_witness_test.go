@@ -82,12 +82,13 @@ func TestProcessUBT(t *testing.T) {
 					Balance: big.NewInt(1000000000000000000), // 1 ether
 					Nonce:   0,
 				},
-				params.BeaconRootsAddress:        {Nonce: 1, Code: params.BeaconRootsCode, Balance: common.Big0},
-				params.HistoryStorageAddress:     {Nonce: 1, Code: params.HistoryStorageCode, Balance: common.Big0},
-				params.WithdrawalQueueAddress:    {Nonce: 1, Code: params.WithdrawalQueueCode, Balance: common.Big0},
-				params.ConsolidationQueueAddress: {Nonce: 1, Code: params.ConsolidationQueueCode, Balance: common.Big0},
-				params.BuilderDepositAddress:     {Nonce: 1, Code: params.BuilderDepositCode, Balance: common.Big0},
-				params.BuilderExitAddress:        {Nonce: 1, Code: params.BuilderExitCode, Balance: common.Big0},
+				params.BeaconRootsAddress:            {Nonce: 1, Code: params.BeaconRootsCode, Balance: common.Big0},
+				params.HistoryStorageAddress:         {Nonce: 1, Code: params.HistoryStorageCode, Balance: common.Big0},
+				params.WithdrawalQueueAddress:        {Nonce: 1, Code: params.WithdrawalQueueCode, Balance: common.Big0},
+				params.ConsolidationQueueAddress:     {Nonce: 1, Code: params.ConsolidationQueueCode, Balance: common.Big0},
+				params.BuilderDepositAddress:         {Nonce: 1, Code: params.BuilderDepositCode, Balance: common.Big0},
+				params.BuilderExitAddress:            {Nonce: 1, Code: params.BuilderExitCode, Balance: common.Big0},
+				params.SetSweepThresholdQueueAddress: {Nonce: 1, Code: params.SetSweepThresholdQueueCode, Balance: common.Big0},
 			},
 		}
 	)

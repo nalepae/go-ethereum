@@ -225,6 +225,10 @@ func PostExecution(ctx context.Context, config *params.ChainConfig, number *big.
 		if err := ProcessBuilderExitQueue(&requests, rules, evm, blockAccessIndex, blockAccessList); err != nil {
 			return nil, nil, fmt.Errorf("failed to process builder exit queue: %w", err)
 		}
+		// EIP-8148
+		if err := ProcessSetSweepThresholdQueue(&requests, rules, evm, blockAccessIndex, blockAccessList); err != nil {
+			return nil, nil, fmt.Errorf("failed to process set sweep threshold queue: %w", err)
+		}
 	}
 	return requests, blockAccessList, nil
 }
@@ -464,6 +468,12 @@ func ProcessBuilderDepositQueue(requests *[][]byte, rules params.Rules, evm *vm.
 // It returns the opaque request data returned by the contract.
 func ProcessBuilderExitQueue(requests *[][]byte, rules params.Rules, evm *vm.EVM, blockAccessIndex uint32, blockAccessList *bal.ConstructionBlockAccessList) error {
 	return processRequestsSystemCall(requests, rules, evm, 0x04, params.BuilderExitAddress, blockAccessIndex, blockAccessList)
+}
+
+// ProcessSetSweepThresholdQueue calls the EIP-8148 set sweep threshold queue contract.
+// It returns the opaque request data returned by the contract.
+func ProcessSetSweepThresholdQueue(requests *[][]byte, rules params.Rules, evm *vm.EVM, blockAccessIndex uint32, blockAccessList *bal.ConstructionBlockAccessList) error {
+	return processRequestsSystemCall(requests, rules, evm, 0x05, params.SetSweepThresholdQueueAddress, blockAccessIndex, blockAccessList)
 }
 
 func processRequestsSystemCall(requests *[][]byte, rules params.Rules, evm *vm.EVM, requestType byte, addr common.Address, blockAccessIndex uint32, blockAccessList *bal.ConstructionBlockAccessList) error {
