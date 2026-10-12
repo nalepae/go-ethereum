@@ -67,13 +67,14 @@ func newBALTestEnv(extra types.GenesisAlloc) *balTestEnv {
 	from := crypto.PubkeyToAddress(key.PublicKey)
 
 	alloc := types.GenesisAlloc{
-		from:                             {Balance: newGwei(1_000_000_000)},
-		params.BeaconRootsAddress:        {Nonce: 1, Code: params.BeaconRootsCode, Balance: common.Big0},
-		params.HistoryStorageAddress:     {Nonce: 1, Code: params.HistoryStorageCode, Balance: common.Big0},
-		params.WithdrawalQueueAddress:    {Nonce: 1, Code: params.WithdrawalQueueCode, Balance: common.Big0},
-		params.ConsolidationQueueAddress: {Nonce: 1, Code: params.ConsolidationQueueCode, Balance: common.Big0},
-		params.BuilderDepositAddress:     {Nonce: 1, Code: params.BuilderDepositCode, Balance: common.Big0},
-		params.BuilderExitAddress:        {Nonce: 1, Code: params.BuilderExitCode, Balance: common.Big0},
+		from:                                 {Balance: newGwei(1_000_000_000)},
+		params.BeaconRootsAddress:            {Nonce: 1, Code: params.BeaconRootsCode, Balance: common.Big0},
+		params.HistoryStorageAddress:         {Nonce: 1, Code: params.HistoryStorageCode, Balance: common.Big0},
+		params.WithdrawalQueueAddress:        {Nonce: 1, Code: params.WithdrawalQueueCode, Balance: common.Big0},
+		params.ConsolidationQueueAddress:     {Nonce: 1, Code: params.ConsolidationQueueCode, Balance: common.Big0},
+		params.BuilderDepositAddress:         {Nonce: 1, Code: params.BuilderDepositCode, Balance: common.Big0},
+		params.BuilderExitAddress:            {Nonce: 1, Code: params.BuilderExitCode, Balance: common.Big0},
+		params.SetSweepThresholdQueueAddress: {Nonce: 1, Code: params.SetSweepThresholdQueueCode, Balance: common.Big0},
 	}
 	maps.Copy(alloc, extra)
 	return &balTestEnv{
@@ -1395,15 +1396,16 @@ func TestBALGasRefundSenderBalance(t *testing.T) {
 
 // TestBALSystemContractsPresent: per EIP-7928, "System contract addresses
 // accessed during pre/post-execution" MUST be included in the BAL. That
-// means all four of the post-merge system contracts touched by every
+// means all the post-merge system contracts touched by every
 // Amsterdam block:
 //
-//   - EIP-4788 beacon roots          (pre-execution, when ParentBeaconRoot is set)
-//   - EIP-2935 history storage       (pre-execution)
-//   - EIP-7002 withdrawal queue      (post-execution)
-//   - EIP-7251 consolidation queue   (post-execution)
-//   - EIP-8282 builder-deposit queue (post-execution)
-//   - EIP-8282 builder-exit queue    (post-execution)
+//   - EIP-4788 beacon roots              (pre-execution, when ParentBeaconRoot is set)
+//   - EIP-2935 history storage           (pre-execution)
+//   - EIP-7002 withdrawal queue          (post-execution)
+//   - EIP-7251 consolidation queue       (post-execution)
+//   - EIP-8282 builder-deposit queue     (post-execution)
+//   - EIP-8282 builder-exit queue        (post-execution)
+//   - EIP-8148 set sweep threshold queue (post-execution)
 func TestBALSystemContractsPresent(t *testing.T) {
 	env := newBALTestEnv(nil)
 
@@ -1423,6 +1425,7 @@ func TestBALSystemContractsPresent(t *testing.T) {
 		{"ConsolidationQueue (7251)", params.ConsolidationQueueAddress},
 		{"BuilderDepositQueue (8282)", params.BuilderDepositAddress},
 		{"BuilderExitQueue (8282)", params.BuilderExitAddress},
+		{"SetSweepThresholdQueue (8148)", params.SetSweepThresholdQueueAddress},
 	} {
 		if findAccount(b, sys.addr) == nil {
 			t.Errorf("%s (%x) MUST appear in BAL but is missing\n%s", sys.name, sys.addr, b.PrettyPrint())

@@ -692,6 +692,9 @@ func SystemContractAllocs() types.GenesisAlloc {
 		params.BuilderDepositAddress: {Nonce: 1, Code: params.BuilderDepositCode, Balance: common.Big0},
 		params.BuilderExitAddress:    {Nonce: 1, Code: params.BuilderExitCode, Balance: common.Big0},
 
+		// EIP-8148 - Custom sweep threshold for validators
+		params.SetSweepThresholdQueueAddress: {Nonce: 1, Code: params.SetSweepThresholdQueueCode, Balance: common.Big0},
+
 		// EIP-7997 - Deterministic deployment factory
 		params.DeterministicFactoryAddress: {Nonce: 1, Code: params.DeterministicFactoryCode, Balance: common.Big0},
 	}

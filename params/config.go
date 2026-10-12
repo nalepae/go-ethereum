@@ -1192,6 +1192,8 @@ func (c *ChainConfig) ActiveSystemContracts(time uint64) map[string]common.Addre
 		// EIP-8282 - Builder Execution Requests
 		active["BUILDER_DEPOSIT_CONTRACT_ADDRESS"] = BuilderDepositAddress
 		active["BUILDER_EXIT_CONTRACT_ADDRESS"] = BuilderExitAddress
+		// EIP-8148 - Custom sweep threshold for validators
+		active["SET_SWEEP_THRESHOLD_REQUEST_PREDEPLOY_ADDRESS"] = SetSweepThresholdQueueAddress
 	}
 	if fork >= forks.Osaka {
 		// no new system contracts
